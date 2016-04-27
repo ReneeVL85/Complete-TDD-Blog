@@ -2,17 +2,6 @@
 
 <%= @post.text %>
 
-<h2> Comment </h2>
-<% @post.comments.each do |comment| %>
-  <p> <%= comment.text %></p>
-  <p><%= time_ago_in_words comment.created_at %></p>
-  <%end%>
-
-<%= form_for [@post, @post.comment.build] do |f| %>
-<p><%= f.text.area :text, :size => "40x10"%></p>
-<p><%= f.submit "Post Comment" %></p>
-<%end%>
-
 <p>
 <%= link_to "Back", post_path %>
 <%= link_to "Edit", edit_post_path(@post) %>
