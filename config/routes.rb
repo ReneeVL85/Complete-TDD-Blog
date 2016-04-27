@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'welcome/index'
+
+  get 'welcome/about'
+
+  get 'welcome/contact'
+
   resources :posts do
     resources :comments
   end
