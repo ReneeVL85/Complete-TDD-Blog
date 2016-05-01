@@ -4,27 +4,9 @@
       <a class="navbar-brand" href="#">BootcampBlog</a>
     </div>
     <ul class="nav navbar-nav">
-      <li> <%=  link_to "Home", posts_path %></li>
+      <li <%=  link_to "Home", welcome_about_path %></li>
       <li><%=  link_to "About", welcome_about_path %></li>
       <li><%=  link_to "Contact Me", welcome_contact_path %></li>
     </ul>
   </div>
 </nav>
-<body>
-<h1>Welcome to my Blog</h1>
-
-<br></br>
-<% @posts.each do |post| %>
-<h2><%= link_to post.title, post %></h2>
-  <p>
-  <%= truncate post.text %>
-  <p>
-  <p>
-  <%= time_ago_in_words post.created_at %>
-  </p>
-<%end%>
-
-<p>
-<%= link_to "New post", new_post_path %>
-</p>
-</body>
