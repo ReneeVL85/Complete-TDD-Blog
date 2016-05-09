@@ -1,20 +1,16 @@
 class CommentsController < ApplicationController
 
-  def index
-  @comments = Post.all(params[:post_id])
-  @comment  = @post.comments.find()
-  end
-
-
   def create
-    @post = Posts.find(params[:post_id])
-    @comment = @post.comments.build([:comment])
-    @comment.save
+     post = Post.find( params[:post_id] )
 
-    redirect_to @post
-  end
+     if comment = Comment.find_by( post: post, user: current_user )
+        Comment.destroy
+     else
+        Comment = Like.new( post: post, user: current_user )
+        Comment.save
+     end
 
-  def destroy
+     redirect_to posts_path
   end
 
 end
