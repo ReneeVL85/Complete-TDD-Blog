@@ -1,19 +1,29 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">BootcampBlog</a>
+      <a class="navbar-brand" >BootcampBlog</a>
     </div>
     <ul class="nav navbar-nav">
       <li> <%=  link_to "Home", posts_path %></li>
       <li><%=  link_to "About", welcome_about_path %></li>
       <li><%=  link_to "Contact Me", welcome_contact_path %></li>
     </ul>
+    <ul class="nav navbar-right">
+      <% if !user_signed_in? %>
+        <li><%= link_to "Log In", new_user_session_path %></li>
+      <% else %>
+        <li><span class="navbar-text"><%= current_user.email %></span></li>
+      <% end %>
+    </ul>
   </div>
 </nav>
+<br></br>
 <body>
-<h1>Welcome to my Blog</h1>
+
+<center><h1>Welcome to my BootcampBlog</h1></center>
 
 <br></br>
+<div class="postblog">
 <% @posts.each do |post| %>
 <h2><%= link_to post.title, post %></h2>
   <p>
@@ -23,8 +33,10 @@
   <%= time_ago_in_words post.created_at %>
   </p>
 <%end%>
-
+</div>
+<div>
 <p>
 <%= link_to "New post", new_post_path %>
 </p>
+</div>
 </body>

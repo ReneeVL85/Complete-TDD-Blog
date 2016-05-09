@@ -1,3 +1,15 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import url(https://fonts.googleapis.com/css?family=Oxygen:400,300);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.h1{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.postblog{
+  font-family: 'Montserrat', sans-serif;
+}
