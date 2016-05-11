@@ -74,11 +74,27 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  describe "delete Post" do
-   it "is not accessible when not logged in" do
-     delete :destroy, {post: valid_attributes}
-     expect(response).to redirect_to posts_path
-   end
+  describe "GET #edit" do
+    it "assigns the requested post as @post" do
+      get :edit, {id: a_post.to_param}
+      expect(response).to redirect_to new_user_session_path
+    end
+
+    context "when logged in" do
+      login_user
+
+      it " assigns the requested post as @post" do
+        get :edit, {id: a_post.to_param}
+        expect(assigns(:post)).to eq(a_post)
+      end
+
+      it "renders the edit template" do
+        get :edit, {id: a_post.to_param}
+        expect(response).to render_template("edit")
+      end
+  end
  end
+
+
 
 end
