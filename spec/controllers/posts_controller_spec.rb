@@ -32,33 +32,53 @@ RSpec.describe PostsController, type: :controller do
       end
     end
 
-#     describe "POST #create" do
-#      it "is not accessible when not logged in" do
-#        post :create, {post: valid_attributes}
-#        expect(response).to redirect_to new_user_session_path
-#      end
-#
-#     context "when logged in" do
-#       login_user
-#
-#     context "with valid params" do
-#      it "creates a new Post" do
-#        expect {
-#          post :create, {post: valid_attributes}
-#        }.to change(Post, :count).by(1)
-#      end
-#
-#      it "assigns a newly created post as @post" do
-#        post :create, {post: valid_attributes}
-#        expect(assigns(:post)).to be_a(Post)
-#        expect(assigns(:post)).to be_persisted
-#      end
-#
-#      it "assigns the logged in user as the post's creater" do
-#        post :create, {post: valid_attributes}
-#        expect(assigns(:post).user).to eq user
-#      end
-#    end
-#  end
-# end
+    describe "POST #create" do
+     it "is not accessible when not logged in" do
+       post :create, {post: valid_attributes}
+       expect(response).to redirect_to new_user_session_path
+     end
+
+    context "when logged in" do
+      login_user
+
+      context "with valid params" do
+       it "creates a new Post" do
+         expect {
+           post :create, {post: valid_attributes}
+         }.to change(Post, :count).by(1)
+       end
+
+       it "assigns a newly created post as @post" do
+         post :create, {post: valid_attributes}
+         expect(assigns(:post)).to be_a(Post)
+         expect(assigns(:post)).to be_persisted
+       end
+
+       it "assigns the logged in user as the post's creater" do
+         post :create, {post: valid_attributes}
+         expect(assigns(:post).user).to eq user
+       end
+     end
+
+     context "with invalid params" do
+       it "assigns a newly created but unsaved post as @post" do
+         post :create, {post: invalid_attributes}
+         expect(assigns(:post)).to be_a_new(Post)
+       end
+
+       it "re-renders the 'new' template" do
+          post :create, {post: invalid_attributes}
+          expect(response).to redirect_to new_post_path
+        end
+     end
+    end
+  end
+
+  describe "delete Post" do
+   it "is not accessible when not logged in" do
+     delete :destroy, {post: valid_attributes}
+     expect(response).to redirect_to posts_path
+   end
+ end
+
 end

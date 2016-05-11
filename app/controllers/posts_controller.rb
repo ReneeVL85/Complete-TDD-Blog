@@ -34,7 +34,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: 'Post was successfully created.'
     else
-      redirect_to new_user_session_path
+      redirect_to new_post_path, alert: "Something went wrong please try again"
     end
   end
 
@@ -54,10 +54,13 @@ class PostsController < ApplicationController
   # DELETE /posts/1.json
   def destroy
      @post = Post.find( params[:id] )
+     @post.user = current_user
 
-     @post.destroy
-
-     redirect_to posts_path
+     if @post.destroy
+       redirect_to posts_path, notice: 'Post was successfully deleted.'
+     else
+      redirect_to posts_path notice: "Something went wrong please try again"
+     end
   end
 
   private

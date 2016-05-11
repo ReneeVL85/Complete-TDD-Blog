@@ -21,4 +21,13 @@ RSpec.describe CommentsController, type: :controller do
       }.to change(Comment, :count).by(1)
     end
   end
+
+  describe "DELETE destroy"do
+    it "deletes a comment" do
+      expect {
+        delete :destroy, {post_id: a_post.to_param}
+      }.to change(Comment, :count).by(-1)
+    end
+  end
+
 end

@@ -13,6 +13,13 @@ before_action :set_post, only: [:create, :destroy]
   end
 
   def destroy
+    @comment = @post.comment.where(user: current_user).find(params[:id])
+
+    if @comment.destroy
+      redirect_to @post, notice: "Your comment has successfully been deleted"
+    else
+      redirect_to @post, alert: "Something went wrong, please try again!"
+    end
   end
 
 
