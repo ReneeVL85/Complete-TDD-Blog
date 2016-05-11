@@ -1,8 +1,24 @@
-require "rails-helper"
-describe CommentsController do
-  describe " GET #index" do
-    it "assigns @comment to @post and renders the index template" do
-      comment = Comment.create 
+require 'rails_helper'
+
+RSpec.describe CommentsController, type: :controller do
+  let(:user) { User.create(email: "user@email.nl", password: "98765432") }
+
+  let!(:a_post) do
+    Post.create!(
+      content: "Look at this a test OMG!",
+      user: user
+    )
+  end
+
+  let(:valid_attributes) do
+    { post_id: a_post.to_param }
+  end
+
+  describe "POST #create" do
+    it "creates an new comment" do
+      expect {
+        post :create, {post_id: a_post.to_param}
+      }.to change(Comment, :count).by(1)
     end
   end
 end
