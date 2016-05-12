@@ -75,7 +75,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe "GET #edit" do
-    it "assigns the requested post as @post" do
+    it "is not accessible when not logged in" do
       get :edit, {id: a_post.to_param}
       expect(response).to redirect_to new_user_session_path
     end
@@ -95,6 +95,41 @@ RSpec.describe PostsController, type: :controller do
   end
  end
 
+ describe "PATCH #update" do
+   it "is not accessible when not logged in" do
+     patch :update, {id: a_post.to_param}
+     expect(response).to redirect_to new_user_session_path
+   end
 
+   context "when logged in" do
+     login_user
+
+     it " allow a post to be updated" do
+       expect{ patch :update, id: post.to_param, post: {title: "Lets update title"}.to(
+       change{post.reload.title}.to("Lets update title"))}
+       expect{ patch :update, id: post.to_param, post: {content: "Lets update content"}.to(
+       change{post.reload.content}.to("Lets update content"))}
+     end
+   end
+ end
+
+ describe "DELETE #destroy" do
+   let!(:a_post) { Post.create! valid_attributes }
+   it "is not accessible when not logged in" do
+     delete :destroy, {id: a_post.to_param}
+     expect(response).to redirect_to new_user_session_path
+   end
+
+   context "when logged in" do
+     login_user
+
+     it "allows a post to be deleted" do
+       expect {
+         delete :destroy, {id: a_post.to_param}
+       }.to change(Post, :count).by(-1)
+     end
+   end
+
+ end
 
 end

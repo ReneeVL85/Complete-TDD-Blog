@@ -31,23 +31,30 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user = current_user
 
-    if @post.save
-      redirect_to posts_path, notice: 'Post was successfully created.'
-    else
-      redirect_to new_post_path, alert: "Something went wrong please try again"
+      respond_to do |format|
+      if @post.save
+          format.html {redirect_to posts_path, notice: 'Post was successfully created.'}
+          format.json {render :show, status: :created, location: @post}
+      else
+        format.html {redirect_to new_post_path, alert: "Something went wrong please try again"}
+        format.json {render json: @post.errors}
+      end
     end
   end
-
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
      @post = Post.find( params[:id] )
 
+     respond_to do |format|
      if @post.update_attributes( post_params )
-        redirect_to @post
+        format.html {redirect_to @post, notice: "Your Post is updated"}
+        format.json {render :show, status: :ok, location: @post}
      else
-        render 'edit'
+        format.html {render 'edit'}
+        format.json {render json: @post.errors}
      end
+   end
   end
 
   # DELETE /posts/1
@@ -56,11 +63,15 @@ class PostsController < ApplicationController
      @post = Post.find( params[:id] )
      @post.user = current_user
 
+     respond_to do |format|
      if @post.destroy
-       redirect_to posts_path, notice: 'Post was successfully deleted.'
+       format.html {redirect_to @post, notice: "Your Post is deleted" }
+       format.json {head :no_content}
      else
-      redirect_to posts_path notice: "Something went wrong please try again"
+      format.html {redirect_to posts_path, notice: "Something went wrong please try again"}
+      format.json {render json: @post.errors}
      end
+   end
   end
 
   private
