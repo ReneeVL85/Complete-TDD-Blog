@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'tags/index'
+
+  get 'tags/show'
+
   devise_for :users
   get 'welcome/index'
 
@@ -8,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :comments, only: [:create, :destroy]
+    resources :tags, only: [:create, :destroy]
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

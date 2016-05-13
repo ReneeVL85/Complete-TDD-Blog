@@ -11,7 +11,7 @@ RSpec.describe CommentsController, type: :controller do
     )
   end
 
-  let!(:valid_attributes) do
+  let(:valid_attributes) do
     {comment: "this is a comment on a post", post_id: a_post.to_param }
   end
 
@@ -32,5 +32,15 @@ RSpec.describe CommentsController, type: :controller do
 
   end
 
+  describe "DELETE destroy"do
+    let!(:post) {FactoryGirl.create(:post)}
+    let!(:comment) {FactoryGirl.create(:comment, post: post)}
+
+    it "deletes a comment" do
+      expect {
+        delete :destroy, post_id: post.to_param, id: comment.to_param
+      }.to change(Comment, :count).by(-1)
+    end
+  end
 
 end
